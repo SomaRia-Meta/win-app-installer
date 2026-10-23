@@ -1,0 +1,124 @@
+新建独立仓库 —— 操作指引
+=====================================================================
+项目:应用安装器(winget 图形界面版)
+位置:C:\Users\SomaRia\Desktop\pj\win-app-installer
+性质:【独立新仓库】,与 Multi-Function-ESP32-Pi-Terminal 无关,不是它的分支
+设置:Public / 仓库名 win-app-installer
+状态:✅ 本地已整理完毕并提交(13 文件 / 1 次提交 / 分支 main)
+      ⏳ 只差 gh 授权这一步
+
+=====================================================================
+一、你需要做的(只需一次)
+=====================================================================
+  打开 PowerShell 或 CMD,执行:
+
+      gh auth login
+
+  然后按提示回答:
+
+      ? Where do you use GitHub?                 → GitHub.com
+      ? What is your preferred protocol ...      → SSH
+      ? Upload your SSH public key?              → Skip
+        (你已经把公钥加到 GitHub 了,不用再上传)
+      ? How would you like to authenticate?      → Login with a web browser
+
+  接着它会显示一个一次性码(形如 1234-ABCD):
+      1. 复制这个码
+      2. 按 Enter → 浏览器自动打开 github.com/login/device
+      3. 粘贴码 → 点 Continue → Authorize
+
+  完成后告诉我"授权好了"。
+
+=====================================================================
+二、我随后执行的命令
+=====================================================================
+  cd C:\Users\SomaRia\Desktop\pj\win-app-installer
+  gh repo create win-app-installer --public --source=. --remote=origin --push
+
+  → 会在 Axe665 账号下新建 Public 仓库 win-app-installer
+  → 自动推送本地 main 分支
+  → 生成 https://github.com/Axe665/win-app-installer
+
+=====================================================================
+三、本地仓库内容(已整理好)
+=====================================================================
+  win-app-installer/
+  ├── README.md                    项目说明(新增)
+  ├── LICENSE                      MIT(新增)
+  ├── CHANGELOG.md                 更新记录(新增)
+  ├── .gitignore                   日志/临时文件/编辑器(新增)
+  ├── 安装应用.cmd                   ★ 入口,双击启动图形版
+  ├── install-apps-gui.ps1         图形界面主程序(35 KB)
+  ├── install-apps-gui.cmd         图形版备用入口
+  ├── install-desktop-apps.cmd     命令行版入口
+  ├── install-desktop-apps.ps1     命令行版主程序(10 KB)
+  ├── app-catalog.ps1              ★ 共享应用清单(增删应用改这里)
+  ├── app-lib.ps1                  公共函数库(24 KB)
+  └── docs/
+      ├── 使用说明.md               完整使用说明(11.7 KB)
+      └── 界面预览.png              界面截图
+
+  13 个文件 / 1 次提交:
+    583ddf9 feat: 初始化应用安装器仓库
+
+=====================================================================
+四、整理时做了什么(以及为什么这样放)
+=====================================================================
+  ✅ 保留脚本平铺在根目录
+     原因:install-apps-gui.ps1 与 install-desktop-apps.ps1 都用
+           $PSScriptRoot 加载 app-catalog.ps1 / app-lib.ps1,
+           两个 .cmd 也按相对路径调用 .ps1。
+           拆到 src/ 子目录会破坏这些引用 → 保持平铺,开箱即用。
+
+  ✅ 文档收进 docs/
+     使用说明.md 与 界面预览.png 不被任何脚本引用 → 可以安全移动。
+
+  ✅ 新增 README.md
+     把「快速开始 / 文件说明 / 命令行用法 / 自定义清单 / 环境要求 /
+      已知限制」集中到一页,原始完整说明归档在 docs/ 里。
+
+  ✅ 新增 LICENSE(MIT)
+     不指定默认协议的话,别人(包括未来的你换设备)用起来会有法律歧义。
+
+  ✅ 新增 CHANGELOG.md
+     作为 v1.0.0 起点,以后每次迭代往上加一节,便于回溯。
+
+  ✅ 新增 .gitignore
+     排除日志、临时目录、编辑器配置,避免误提交。
+
+  ✅ 语法校验
+     4 个 .ps1 全部通过 PowerShell 语法解析,0 错误。
+
+=====================================================================
+五、以后怎么迭代
+=====================================================================
+  cd C:\Users\SomaRia\Desktop\pj\win-app-installer
+  # 改完代码后
+  git add -A
+  git commit -m "feat: 加了什么功能"
+  git push
+
+  建议约定(适合这类工具):
+    feat:     新功能        例 feat: 支持从桌面快捷方式推断应用
+    fix:      修复          例 fix: winget 输出含 ANSI 时版本解析失败
+    refactor: 重构          例 refactor: 拆分 app-lib 里的路径校验
+    docs:     文档          例 docs: 补充 MSIX 不支持自定义路径的说明
+    chore:    杂项          例 chore: 更新 README 截图
+    vX.Y.Z 版本号:
+      改 app-catalog.ps1 的应用清单     → 小版本 +(1.0.0 → 1.0.1)
+      改界面/新增参数/修 bug           → 次版本 +(1.0.0 → 1.1.0)
+      架构性改动                       → 主版本 +(1.0.0 → 2.0.0)
+
+  发版时:
+    gh release create v1.0.0 --title "v1.0.0" --notes "首个入库版本"
+
+=====================================================================
+六、两个项目的区别(避免混淆)
+=====================================================================
+  项目                          仓库/分支                              性质
+  ────────────────────────────────────────────────────────────────────
+  外壳 CAD                      Multi-Function-ESP32-Pi-Terminal      主项目的分支
+                               分支 enclosure-cad                     hardware/enclosure/
+  应用安装器                     win-app-installer(新建)               ★ 独立仓库
+                                                                      与上面完全无关
+=====================================================================
