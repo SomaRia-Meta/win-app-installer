@@ -2,7 +2,7 @@
 =====================================================================
 项目:应用安装器(winget 图形界面版)
 位置:C:\Users\SomaRia\Desktop\pj\win-app-installer
-性质:【独立新仓库】,与 Multi-Function-ESP32-Pi-Terminal 无关,不是它的分支
+性质:【独立新仓库】,与 Axe665/Multi-Function-ESP32-Pi-Terminal 无关,不是它的分支
 设置:Public / 仓库名 win-app-installer
 状态:✅ 本地已整理完毕并提交(13 文件 / 1 次提交 / 分支 main)
       ⏳ 只差 gh 授权这一步
@@ -35,9 +35,9 @@
   cd C:\Users\SomaRia\Desktop\pj\win-app-installer
   gh repo create win-app-installer --public --source=. --remote=origin --push
 
-  → 会在 Axe665 账号下新建 Public 仓库 win-app-installer
+  → 会在 SomaRia-Meta 账号下新建 Public 仓库 win-app-installer
   → 自动推送本地 main 分支
-  → 生成 https://github.com/Axe665/win-app-installer
+  → 生成 https://github.com/SomaRia-Meta/win-app-installer
 
 =====================================================================
 三、本地仓库内容(已整理好)
