@@ -1,0 +1,23 @@
+﻿# 日志与临时文件
+*.log
+logs/
+out/
+temp/
+tmp/
+
+# PowerShell 打包/编译产物
+*.ps1xml.bak
+*.nupkg
+
+# 编辑器
+.vscode/
+.idea/
+*.swp
+
+# 系统
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# 本地个人配置(如果将来加)
+*.local.ps1
